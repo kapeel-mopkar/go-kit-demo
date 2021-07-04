@@ -1,4 +1,4 @@
-package account
+package db
 
 import (
 	"context"
@@ -6,6 +6,7 @@ import (
 	"errors"
 
 	"github.com/go-kit/kit/log"
+	"github.com/kapeel-mopkar/go-kit-demo/account/db/model"
 )
 
 var RepoErr = errors.New("Unable to handle repository errors")
@@ -15,14 +16,14 @@ type repo struct {
 	logger log.Logger
 }
 
-func NewRepo(db *sql.DB, logger log.Logger) Repository {
+func NewRepo(db *sql.DB, logger log.Logger) model.Repository {
 	return &repo{
 		db:     db,
 		logger: log.With(logger, "repo", "sql"),
 	}
 }
 
-func (repo *repo) CreateUser(ctx context.Context, user User) error {
+func (repo *repo) CreateUser(ctx context.Context, user model.User) error {
 	query := `INSERT into users (id, email, password) 
 	VALUES (?, ?, ?)`
 

@@ -1,4 +1,4 @@
-package account
+package impl
 
 import (
 	"context"
@@ -6,14 +6,16 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/gofrs/uuid"
+	"github.com/kapeel-mopkar/go-kit-demo/account"
+	"github.com/kapeel-mopkar/go-kit-demo/account/db/model"
 )
 
 type service struct {
-	repository Repository
+	repository model.Repository
 	logger     log.Logger
 }
 
-func NewService(repo Repository, log log.Logger) Service {
+func NewService(repo model.Repository, log log.Logger) account.Service {
 	return &service{
 		repository: repo,
 		logger:     log,
@@ -26,7 +28,7 @@ func (s service) CreateUser(ctx context.Context, email string, password string) 
 	uuid, _ := uuid.NewV4()
 	id := uuid.String()
 
-	user := User{
+	user := model.User{
 		ID:       id,
 		Email:    email,
 		Password: password,

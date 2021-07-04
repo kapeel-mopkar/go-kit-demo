@@ -13,6 +13,8 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/kapeel-mopkar/go-kit-demo/account"
+	acctdb "github.com/kapeel-mopkar/go-kit-demo/account/db"
+	"github.com/kapeel-mopkar/go-kit-demo/account/impl"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -53,9 +55,9 @@ func main() {
 
 	var svc account.Service
 	{
-		repository := account.NewRepo(db, logger)
+		repository := acctdb.NewRepo(db, logger)
 
-		svc = account.NewService(repository, logger)
+		svc = impl.NewService(repository, logger)
 	}
 
 	errs := make(chan error)

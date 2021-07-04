@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/mux"
 
 	httptransport "github.com/go-kit/kit/transport/http"
+	"github.com/kapeel-mopkar/go-kit-demo/account/crypto"
 )
 
 func NewHTTPServer(ctx context.Context, endpoints Endpoints) http.Handler {
@@ -15,14 +16,14 @@ func NewHTTPServer(ctx context.Context, endpoints Endpoints) http.Handler {
 
 	r.Methods("POST").Path("/users").Handler(httptransport.NewServer(
 		endpoints.CreateUser,
-		decodeUserRequest,
-		encodeReponse,
+		crypto.DecodeUserRequest,
+		crypto.EncodeReponse,
 	))
 
 	r.Methods("GET").Path("/users/{id}").Handler(httptransport.NewServer(
 		endpoints.GetUser,
-		decodeEmailRequest,
-		encodeReponse,
+		crypto.DecodeEmailRequest,
+		crypto.EncodeReponse,
 	))
 
 	return r

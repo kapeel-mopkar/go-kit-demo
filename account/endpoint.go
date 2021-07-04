@@ -4,6 +4,8 @@ import (
 	"context"
 
 	"github.com/go-kit/kit/endpoint"
+
+	"github.com/kapeel-mopkar/go-kit-demo/account/dto"
 )
 
 type Endpoints struct {
@@ -20,9 +22,9 @@ func MakeEndpoints(s Service) Endpoints {
 
 func makeCreateUserEndpoint(s Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		req := request.(CreateUserRequest)
+		req := request.(dto.CreateUserRequest)
 		ok, err := s.CreateUser(ctx, req.Email, req.Password)
-		return CreateUserResponse{
+		return dto.CreateUserResponse{
 			Ok: ok,
 		}, err
 	}
@@ -30,9 +32,9 @@ func makeCreateUserEndpoint(s Service) endpoint.Endpoint {
 
 func makeGetUserEndpoint(s Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		req := request.(GetUserRequest)
+		req := request.(dto.GetUserRequest)
 		email, err := s.GetUser(ctx, req.Id)
-		return GetUserResponse{
+		return dto.GetUserResponse{
 			Email: email,
 		}, err
 	}
